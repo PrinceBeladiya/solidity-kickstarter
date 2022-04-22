@@ -6,12 +6,6 @@ import { Link } from '../routes';
 
 export const Index = (props) => {
 
-  Index.getInitialProps = async () => {
-    const addresses = await factory.methods.getDeployedCampaign().call();
-
-    return { addresses };
-  }
-
   const getCampaignsCards = () => {
 
     const Campaigns = props.addresses.map(address => {
@@ -38,6 +32,12 @@ export const Index = (props) => {
       </div>
     </Layout>
   )
+}
+
+Index.getInitialProps = async () => {
+  const addresses = await factory.methods.getDeployedCampaign().call();
+
+  return { addresses };
 }
 
 export default Index;
