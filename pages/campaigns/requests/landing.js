@@ -27,7 +27,7 @@ export const Landing = (props) => {
 
             <Link route={`/campaigns/${props.address}/requests/new`}>
                 <a>
-                    <Button primary>Add Request</Button>
+                    <Button primary floated='right' style={{ marginBottom : 10 }}>Add Request</Button>
                 </a>
             </Link>
 
@@ -48,11 +48,14 @@ export const Landing = (props) => {
                     {rowRendering()}
                 </Body>
             </Table>
+
+            <h4>Found request :- { props.requestCount }</h4>
         </Layout>
     )
 }
 
 Landing.getInitialProps = async (props) => {
+
     const address = props.query.address;
 
     const campaign = await Campaign(address);
@@ -61,13 +64,14 @@ Landing.getInitialProps = async (props) => {
 
     const approvalCount = await campaign.methods.countApprovals().call();
 
-    const requests = await Promise.all( 
-        Array(requestCount).fill().map((element, index) => {
+    const requests = await Promise.all(
+        Array(parseInt(requestCount)).fill().map((element, index) => {
             return campaign.methods.requests(index).call()
         })
     );
 
     return { address, requestCount, requests, approvalCount };
+
 }
 
 export default Landing;
